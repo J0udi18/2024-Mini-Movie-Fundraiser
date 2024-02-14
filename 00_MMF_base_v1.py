@@ -3,6 +3,33 @@
 
 # functions go here
 
+# checks user has entered yes / no to a question
+def yes_no(question):
+
+    while True:
+        response = input(question).lower()
+
+        if response == "yes" or response == "y":
+            return "yes"
+        elif response == "no" or response == "n":
+            return "no"
+        else:
+            print("please enter yes / no")
+            
+
+# checks user has entered an integer
+def num_check(question):
+
+  while True:
+
+    try:
+      response = int(input(question))
+      return response
+
+    except ValueError:
+      print("Please enter an integer")
+
+
 # checks that ticket name is not blank
 def not_blank(question):
     valid = False
@@ -42,77 +69,62 @@ def int_check(question):
             print(error)
 
 
-# ********** Main Routine ************
+# Calculate the tickets price based on the age
+def cal_ticket_price(var_age):
 
-# Set up dictionaries / lists needed to hold data
+  #ticket is $7.50 for users under 16
+  if var_age < 16:
+    price = 7.5
 
-# Ask user if they have used the program before & show instructions if necessary
+  #ticket is $10.50 for users between 16 and 64
+  elif var_age < 65:
+    price = 10.5
 
-# Loop to get ticket details
-# start of loop
+    # ticket proce is $6.50 for seniors (65+)
+  else:
+    price = 6.5
 
-# initialise loop so that it runs at least once
-name = ""
-count = 0
-MAX_TICKETS = 5
+    return price
 
-while name != "xxx" and count < MAX_TICKETS:
+# set maximum number of tickets below
+MAX_TICKETS = 3
+tickets_sold = 0
 
-    # tells user how many seats are left
-    if count < 4:
-        print("You have {} seats "
-              "left".format(MAX_TICKETS - count))
+# Ask user if they want to see the instructions
+want_instructions = yes_no("Do you wan to read the instructions? ")
 
-    # Warns user that only one seat is left!
-    else:
-        print("*** There is ONE seat left!! ***")
+if want_instructions == "yes":
+    print("Instructions go here")
 
-    # Get details...
+print()
 
-    # Get name (can't be blank)
-    name = not_blank("Name: ")
 
-    # end the loop if the exit code is entered
-    if name == "xxx":
+# loop to sell tickets
+while tickets_sold < MAX_TICKETS:
+    Name = not_blank("Enter your name (or 'xxx' to quit)")
+
+    if name == 'xxx':
         break
 
-    # Get age (between 12 and 130
-    age = int_check("Age: ")
 
-    # check that age is valid...
-    if age < 12:
-        print("Sorry you are too young for this movie")
+    age = num_check("Age: ")
+
+    # check user is between 12 and 120 (inclusive)
+    if 12 <= age <= 120:
+        print("Sorry you are to young for this movie")
         continue
-    elif age > 130:
-        print("That is very old - it looks like a mistake")
+    else:
+        print("?? That look like a typo, please try again")
         continue
 
-    count += 1
+    # calculate ticket cost
+    tickets_cost = cal_ticket_price(age)
+    print("Age: {}, Ticket Price: ${:.2f}".format(age, ticket_cost))
 
-# End of tickets loop
+    tickets_sold += 1
 
-# Calculate profit etc...
-if count == MAX_TICKETS:
-    print("You have sold all the available tickets!")
+# Output number of tickets sold
+if tickets_sold == MAX_TICKETS:
+    print("Congratulations you haev sold all the tickets")
 else:
-    print("You have sold {} tickets.  \n"
-          "There are {} places still available"
-          .format(count, MAX_TICKETS - count))
-
-
-
-
-
-
-    # Calculate ticket price
-
-    # Loop to ask for snacks
-
-    # Calculate snack price
-
-    # ask for payment method (and apply surcharge if necesary)
-
-
-# Calculate Total sales and profit
-
-# Output data to text file
+    print("You have sold {} ticket/s. There is {} ticket/s")
