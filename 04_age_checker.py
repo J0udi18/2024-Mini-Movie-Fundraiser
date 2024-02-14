@@ -17,14 +17,12 @@ tickets_sold = 0
 
 while True:
 
-  name = input("Enter your name or 'xxx' to quit: "")
+  name = input("Enter your name or 'xxx' to quit: ")
 
   if name == "xxx":
     break
 
-  age = int(input("Age: "))
-
-  age = int(input("Enter your age: "))
+  age = num_check("Age: ")
 
   if 12 <= age <= 120:
     pass
@@ -32,19 +30,11 @@ while True:
     print("Sorry, you are too young for this movie")
     continue
   else:
-    print("That looks like a mistake - try again")
+    print("?? That looks like a mistake - try again")
     continue
 
-  if 12 <= age <= 16:
-    cost = 7
-
-  elif 17 <= age <= 65:
-    cost = 12
-  else:
-    cost = 5
-
   tickets_sold += 1
-  print("Ticket price: ${:.2f}".format(cost))
+  print("You have sold {} tickets".format(tickets_sold))
 
 
   
