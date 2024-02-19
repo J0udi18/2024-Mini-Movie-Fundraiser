@@ -2,12 +2,17 @@
 #  cash / credit) based on a list of options
 def string_checker(question, num_letter, valid_responses):
 
+    if num_letter == 1:
+        short_version = 1
+    else:
+        short_version = 2
+
     while True:
 
         response = input(question).lower()
 
         for item in valid_responses:
-            if response == item[0] or response == item:
+            if response == item[:short_version] or response == item:
                 return item
 
         print("Please enter a valid response")
@@ -20,7 +25,7 @@ payment_list = ["cash", "credit"]
 for case in range(0,5):
     want_instructions = string_checker("Do you want to read the instructions (y/n): ",
                                        "instructions (y/n): ",
-                                       1, yes_no_list)
+                                       1)
     print("You chose", want_instructions)
 
 for case in range(0, 5):

@@ -1,4 +1,4 @@
-# Fuctions go here
+# Functions go here
 def cash_credit(question):
 
     while True:
