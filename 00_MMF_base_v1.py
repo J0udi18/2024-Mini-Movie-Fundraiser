@@ -153,6 +153,8 @@ while tickets_sold < MAX_TICKETS:
                                 "credit): ",
                                 2, payment_list)
 
+    print(f"You chose {pay_method}")
+
     tickets_sold += 1
 
 # Output number of tickets sold
