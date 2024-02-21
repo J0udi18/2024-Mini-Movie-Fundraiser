@@ -1,14 +1,12 @@
 # checks that users enter a valid response (eg yes / no
 #  cash / credit) based on a list of options
+from numpy.version import short_version
+
+
 def string_checker(question, num_letter, valid_responses):
 
     error = "Please choose {} or {}".format(valid_responses[0],
                                             valid_responses[1])
-
-    if num_letter == 1:
-        short_version = 1
-    else:
-        short_version = 2
 
     while True:
 
