@@ -185,56 +185,56 @@ while tickets_sold < MAX_TICKETS:
     all_ticket_costs.append(ticket_cost)
     all_surcharge.append(surcharge)
 
-# create data frame from dictionary to organise information
-mini_movie_frame = pandas.DataFrame(mini_movie_dict)
-# mini_movie_frame = mini_movie_frame.set_index('Name')
+    # create data frame from dictionary to organise information
+    mini_movie_frame = pandas.DataFrame(mini_movie_dict)
+    # mini_movie_frame = mini_movie_frame.set_index('Name')
 
-# Calculate the total ticket cost (ticket + surcharge)
-mini_movie_frame['Total'] = mini_movie_frame['Surcharge'] \
-                            + mini_movie_frame['Ticket Price']
+    # Calculate the total ticket cost (ticket + surcharge)
+    mini_movie_frame['Total'] = mini_movie_frame['Surcharge'] \
+                                + mini_movie_frame['Ticket Price']
 
-# calculate the profit for rach ticket
-mini_movie_frame['Profit'] = mini_movie_frame['Ticket Price'] - 5
+    # calculate the profit for rach ticket
+    mini_movie_frame['Profit'] = mini_movie_frame['Ticket Price'] - 5
 
-# calculate ticket and profit totals
-total = mini_movie_frame['Total'].sum()
-profit = mini_movie_frame['Profit'].sum()
+    # calculate ticket and profit totals
+    total = mini_movie_frame['Total'].sum()
+    profit = mini_movie_frame['Profit'].sum()
 
-# Currency Formatting (uses currency function)
-add_dollars = ['Ticket Price', 'Surcharge', 'Total', 'Profit']
-for var_item in add_dollars:
-    mini_movie_frame[var_item].apply(currency)
+    # Currency Formatting (uses currency function)
+    add_dollars = ['Ticket Price', 'Surcharge', 'Total', 'Profit']
+    for var_item in add_dollars:
+        mini_movie_frame[var_item].apply(currency)
 
-# choose a winner from our name list
-winner_name = random.choice(all_names)
+    # choose a winner from our name list
+    winner_name = random.choice(all_names)
 
-# get position of winner name in list
-win_index = all_names.index(winner_name)
+    # get position of winner name in list
+    win_index = all_names.index(winner_name)
 
-# look up total amount won (ie: ticket price + surcharge)
-total_won = mini_movie_frame.at[win_index, 'Total']
+    # look up total amount won (ie: ticket price + surcharge)
+    total_won = mini_movie_frame.at[win_index, 'Total']
 
-print("---- Ticket Data ----")
-print()
+    print("---- Ticket Data ----")
+    print()
 
-# output table with ticket data
-print(mini_movie_frame)
+    # output table with ticket data
+    print(mini_movie_frame)
 
-print()
-print("----- Ticket Cost / Profit -----")
+    print()
+    print("----- Ticket Cost / Profit -----")
 
-# output total ticket sales and profit
-print("Total Ticket Sales: ${:.2f}",format(total))
-print("Total Profit : ${:.2f}".format(profit))
+    # output total ticket sales and profit
+    print("Total Ticket Sales: ${:.2f}",format(total))
+    print("Total Profit : ${:.2f}".format(profit))
 
-print()
-print('------ Raffle Winner ------')
-print("Congregations {}. You have won ${} ie: your "
-      "ticket is free!".format(winner_name, total_won))
+    print()
+    print('------ Raffle Winner ------')
+    print("Congregations {}. You have won ${} ie: your "
+          "ticket is free!".format(winner_name, total_won))
 
-# Output number of tickets sold
-if tickets_sold == MAX_TICKETS:
-    print("Congratulations you have sold all the tickets")
-else:
-    print("You have sold {} ticket/s. There is {} ticket/s"
-          "remaining".format(tickets_sold, MAX_TICKETS - tickets_sold))
+    # Output number of tickets sold
+    if tickets_sold == MAX_TICKETS:
+        print("Congratulations you have sold all the tickets")
+    else:
+        print("You have sold {} ticket/s. There is {} ticket/s"
+              "remaining".format(tickets_sold, MAX_TICKETS - tickets_sold))
