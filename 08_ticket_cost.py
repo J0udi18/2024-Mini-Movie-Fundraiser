@@ -27,6 +27,7 @@ mini_movie_dict = {
     "Surcharge": surcharge
 }
 
+# create data frame from dictionary to organise information
 mini_movie_frame = pandas.DataFrame(mini_movie_dict)
 mini_movie_frame = mini_movie_frame.set_index('Name')
 
