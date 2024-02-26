@@ -26,6 +26,7 @@ a text file.
 
 *************************''')
 
+
 # checks user has entered yes / no to a question
 def yes_no(question):
     while True:
@@ -173,7 +174,7 @@ while tickets_sold < MAX_TICKETS:
     # one ticket
     if Name == 'xxx' and len(all_names) > 0:
         break
-    elif name == 'xxx':
+    elif Name == 'xxx':
         print("You must sell at least ONE ticket before quitting")
         continue
 
@@ -197,6 +198,8 @@ while tickets_sold < MAX_TICKETS:
                                 "credit): ",
                                 2, payment_list)
 
+    print(f"You are paying {pay_method}")
+
     if pay_method == "cash":
         surcharge = 0
     else:
@@ -210,93 +213,85 @@ while tickets_sold < MAX_TICKETS:
     all_ticket_costs.append(ticket_cost)
     all_surcharge.append(surcharge)
 
-    # create data frame from dictionary to organise information
-    mini_movie_frame = pandas.DataFrame(mini_movie_dict)
-    # mini_movie_frame = mini_movie_frame.set_index('Name')
+# create data frame from dictionary to organise information
+mini_movie_frame = pandas.DataFrame(mini_movie_dict)
+# mini_movie_frame = mini_movie_frame.set_index('Name')
 
-    # Calculate the total ticket cost (ticket + surcharge)
-    mini_movie_frame['Total'] = mini_movie_frame['Surcharge'] \
-                                + mini_movie_frame['Ticket Price']
+# Calculate the total ticket cost (ticket + surcharge)
+mini_movie_frame['Total'] = mini_movie_frame['Surcharge'] \
+                            + mini_movie_frame['Ticket Price']
 
-    # calculate the profit for rach ticket
-    mini_movie_frame['Profit'] = mini_movie_frame['Ticket Price'] - 5
+# calculate the profit for reach ticket
+mini_movie_frame['Profit'] = mini_movie_frame['Ticket Price'] - 5
 
-    # calculate ticket and profit totals
-    total = mini_movie_frame['Total'].sum()
-    profit = mini_movie_frame['Profit'].sum()
+# calculate ticket and profit totals
+total = mini_movie_frame['Total'].sum()
+profit = mini_movie_frame['Profit'].sum()
 
-    # choose winner and look up total won
-    winner_name = random.choice(all_names)
-    win_index = all_names.index(winner_name)
-    total_won = mini_movie_frame.at[win_index, 'Total']
+# choose winner and look up total won
+winner_name = random.choice(all_names)
+win_index = all_names.index(winner_name)
+total_won = mini_movie_frame.at[win_index, 'Total']
 
+# Currency Formatting (uses currency function)
+add_dollars = ['Ticket Price', 'Surcharge', 'Total', 'Profit']
+for var_item in add_dollars:
+    mini_movie_frame[var_item].apply(currency)
 
-    # Currency Formatting (uses currency function)
-    add_dollars = ['Ticket Price', 'Surcharge', 'Total', 'Profit']
-    for var_item in add_dollars:
-        mini_movie_frame[var_item].apply(currency)
+# set index at end (before printing)
+mini_movie_frame = mini_movie_frame.set_index('Name')
 
-    # set index at end (before printing)
-    mini_movie_frame = mini_movie_frame.at('Name')
+# **** Get current date for heading and filename ****
+# get today's date
+today = date.today()
 
-    print("---- Ticket Data ----")
-    print()
+# Get day, month and year as individual strings
+day = today.strftime("%d")
+month = today.strftime("%m")
+year = today.strftime("%y")
 
-    # output table with ticket data
-    print(mini_movie_frame)
+heading = "---- Mini Movie Fundraiser Ticket Data ({}/{}/{}) ----\n".format(day, month, year)
+filename = "MMF_{}_{}_{}".format(year, month, day)
 
-    # **** Get current date for headind and filename ****
-    # get today's date
-    today = date.strftime()
+# change frame to a string so that we can export it to file
+mini_movie_string = pandas.DataFrame.to_string(mini_movie_frame)
 
-    # Get day, month and year as individual strings 
-    day = date.strftime("%d")
-    month = date.strftime("%m")
-    year = date.strftime("%y")
+# create strings for printing.....
+ticket_cost_heading = "\n----- Ticket Cost / Profit -----"
+total_ticket_sales = "Total Ticket Sales: ${:.2f}".format(total)
+total_profit = "Total Profit : ${:.2f}".format(profit)
 
-    heading = "---- Mini Movie Fundraiser Ticket Data ({}/{}/{}) ----\n".format(day, month, year)
-    filename = "MMF_{}_{}_{}".format(year, month, day)
+# edit text below!! It needs to work if we have unsold tickets
+# show users how many tickets have been sold
+if tickets_sold == MAX_TICKETS:
+    sales_status = "\n*** All the tickets have been sold ***"
+else:
+    sales_status = "\n *** You have sold {} out of {} " \
+                   "tickets *****".format(tickets_sold, MAX_TICKETS)
 
-    # change frame to a string so that we can export it to file
-    mini_movie_string = pandas.DataFrame.to_string(mini_movie_frame)
+# Output raffle results
+winner_heading = "\n---- Raffle Winner ----"
+winner_text = "The winner of the raffle is {}. " \
+              "They have won ${}.  ie: Their ticket is " \
+              "free!".format(winner_name, total_won)
 
-    # create strings for printing.....
-    ticket_cost_heading = "\n----- Ticket Cost / Profit -----"
-    total_ticket_sales = "Total Ticket Sales: ${:.2f}".format(total)
-    tal_profit = "Total Profit : ${:.2f}".format(profit)
-    
-    # edit text below!! It needs to work if we have unsold tickets
-    # show users how many tickets have been sold
-    if tickets_sold == MAX_TICKETS:
-        sales_status = "\n*** All the tickets have been sold ***"
-    else:
-        sales_status = "\n *** You have sold {} out of {} " \
-                        "tickets *****".format(tickets_sold, MAX_TICKETS)
+# lists holding content to print / write to file
+to_write = [heading, mini_movie_string, ticket_cost_heading,
+            total_ticket_sales, total_profit, sales_status,
+            winner_heading, winner_text]
 
-    # Output raffle resluts
-    winner_heading = "\n---- Raffle Winner ----"
-    winner_text = "The winner of the raffle is {}. " \
-                "They have won ${}.  ie: Their ticket is " \
-                "free!".format(winner_name, total_won)
+# print output
+for item in to_write:
+    print(item)
 
-    # lists holding content to print / write to file
-    to_write = [heading, mini_movie_string, ticket_cost_heading,
-                total_ticket_sales, total_profit, sales_status,
-                winner_heading, winner_text]
+# write output to file
+# create file to hold data (add .txt extension)
+write_to = "{}.txt".format(filename)
+text_file = open(write_to, "w+")
 
-    # print output
-    for item in to_write:
-        print(item)
+for item in to_write:
+    text_file.write(item)
+    text_file.write("\n")
 
-
-    # write output to file
-    # create file to hold data (add .txt extension)
-    write_to = "{}.txt".format(filename)
-    text_file = open(write_to, "w+")
-
-    for item in to_write:
-        text_file.write(item)
-        text_file.write("\n")
-
-    # close file
-    text_file.close()
+# close file
+text_file.close()
