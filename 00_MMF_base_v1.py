@@ -26,20 +26,6 @@ a text file.
 
 *************************''')
 
-
-# checks user has entered yes / no to a question
-def yes_no(question):
-    while True:
-        response = input(question).lower()
-
-        if response == "yes" or response == "y":
-            return "yes"
-        elif response == "no" or response == "n":
-            return "no"
-        else:
-            print("please enter yes / no")
-
-
 # checks user has entered an integer
 def num_check(question):
     while True:
@@ -236,7 +222,7 @@ total_won = mini_movie_frame.at[win_index, 'Total']
 # Currency Formatting (uses currency function)
 add_dollars = ['Ticket Price', 'Surcharge', 'Total', 'Profit']
 for var_item in add_dollars:
-    mini_movie_frame[var_item].apply(currency)
+    mini_movie_frame[var_item] = mini_movie_frame[var_item].apply(currency)
 
 # set index at end (before printing)
 mini_movie_frame = mini_movie_frame.set_index('Name')
@@ -272,7 +258,7 @@ else:
 # Output raffle results
 winner_heading = "\n---- Raffle Winner ----"
 winner_text = "The winner of the raffle is {}. " \
-              "They have won ${}.  ie: Their ticket is " \
+              "They have won ${:.2f}  ie: Their ticket is " \
               "free!".format(winner_name, total_won)
 
 # lists holding content to print / write to file
